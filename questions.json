@@ -1,0 +1,67 @@
+[
+  {
+    "id": 1,
+    "question": "Who was the first President of the United States?",
+    "options": [
+      "Abraham Lincoln",
+      "George Washington",
+      "Thomas Jefferson",
+      "John Adams"
+    ],
+    "answer": 1,
+    "explanation": "George Washington served as the first President from 1789 to 1797.",
+    "image": ""
+  },
+  {
+    "id": 2,
+    "question": "In which year did World War II end?",
+    "options": [
+      "1940",
+      "1942",
+      "1945",
+      "1948"
+    ],
+    "answer": 2,
+    "explanation": "World War II ended in 1945 with the Allied victory over the Axis powers.",
+    "image": ""
+  },
+  {
+    "id": 3,
+    "question": "The Great Wall of China was primarily built to protect against which group?",
+    "options": [
+      "Romans",
+      "Huns",
+      "Mongols",
+      "Persians"
+    ],
+    "answer": 2,
+    "explanation": "The Great Wall was built to protect Chinese states against invasions by nomadic tribes like the Mongols.",
+    "image": ""
+  },
+  {
+    "id": 4,
+    "question": "What empire was ruled by Julius Caesar?",
+    "options": [
+      "Ottoman Empire",
+      "Roman Empire",
+      "British Empire",
+      "Persian Empire"
+    ],
+    "answer": 1,
+    "explanation": "Julius Caesar was a key figure in the rise of the Roman Empire.",
+    "image": ""
+  },
+  {
+    "id": 5,
+    "question": "Which country was formerly known as Persia?",
+    "options": [
+      "Iran",
+      "Iraq",
+      "Turkey",
+      "Syria"
+    ],
+    "answer": 0,
+    "explanation": "Persia was renamed Iran in 1935.",
+    "image": ""
+  }
+]
