@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3 Panel Blog Layout</title>
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #f5f5f5;
+        overflow-x: hidden;
+    }
+    .header {
+         background: #2569ae;/*------------------------- upermost bar  */
+        color: white;/*------------------------- upermost bar title  */
+        padding: 15px;
+        text-align: center;
+        font-size: 1.5rem;
+    }
+    .main {
+        display: flex;
+        height: calc(100vh - 60px);
+    }
+    .sidebar, .ad-section, .content-area {
+        padding: 10px;
+        overflow-y: auto;
+    }
+    .sidebar {
+        background: #2c3e50;/*---------------------- side bar bg clour*/
+        color: white;
+        width: 250px;
+        flex-shrink: 0;
+    }
+    .ad-section {
+        background: #ffffff;
+        width: 220px;
+        flex-shrink: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .content-area {
+        flex: 1;
+        background: white;
+    }
+    .blog-card {
+        background: #ecf0f1;
+        margin-bottom: 20px;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .topic-group {
+        margin-bottom: 10px;
+    }
+    .topic-button, .custom-btn {
+        background: #34495e;
+        border: none;
+        color: white;
+        padding: 10px;
+        width: 100%;
+        text-align: left;
+        border-radius: 6px;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 1rem;
+    }
+    .topic-button:hover {
+        background: #1abc9c;
+    }
+    .subtopics {
+        background: #3d566e;
+        margin-top: 5px;
+        border-radius: 5px;
+        overflow: hidden;
+        max-height: 0;
+        transition: max-height 0.3s ease;
+    }
+    .subtopics button {
+        background: #3d566e;
+        border: none;
+        color: white;
+        padding: 8px;
+        width: 100%;
+        text-align: left;
+        cursor: pointer;
+    }
+    .subtopics button:hover {
+        background: #1abc9c;
+    }
+    @media (min-width: 769px) {
+        .topic-group:hover .subtopics {
+            max-height: 1000px;
+        }
+    }
+    .subtopics.open {
+        max-height: 300px;
+    }
+    .toggle-buttons {
+        display: none;
+        justify-content: space-between;
+        padding: 10px;
+        background: #ddd;
+    }
+    .custom-btn {
+      background: #d8dee4;
+      border: none;
+      color: rgb(250, 250, 250);
+      padding: 10px 12px;
+      border-radius: 6px;
+      width: 100%;
+      text-align: left;
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 80px;
+      font-size: 16px;
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+    }
+    .icon-text-btn {
+    display: flex;
+    align-items: center;
+    background-color: #34495e;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.icon-container {
+    width: 50px;
+    height: 50px;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.icon-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.btn-label {
+    margin-left: 10px;
+    font-size: 16px;
+    flex-grow: 1;
+    text-align: left;
+}
+
+/* Hover Effects */
+.icon-text-btn:hover .icon-container {
+    transform: scale(1.1); /* Pop effect on icon */
+}
+
+.icon-text-btn:hover {
+    background-color: #1abc9c;
+}
+
+    .toggle-btn {
+        background: #34495e;
+        color: white;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    @media (max-width: 768px) {
+        .main {
+            flex-direction: column;
+        }
+        .sidebar, .ad-section {
+            position: fixed;
+            top: 60px;
+            height: calc(100vh - 60px);
+            width: 100%;
+            max-width: 250px;
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+        .sidebar {
+            left: 0;
+            transform: translateX(-100%);
+        }
+        .ad-section {
+            right: 0;
+            transform: translateX(100%);
+        }
+        .sidebar.open {
+            transform: translateX(0);
+        }
+        .ad-section.open {
+            transform: translateX(0);
+        }
+        .toggle-buttons {
+            display: flex;
+        }
+    }
+    .button-row {
+        display: flex;
+        gap: 5px;
+        margin-top:0px;
+        margin-bottom:0px;
+    
+    }
+    .icon-btn img {
+        width: 30px;
+        height: 30px;
+    }
+    .container {
+    width: 100%;
+    max-width: 100%;
+    height: 95vh;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  }
+  .tab-bar {
+    display: flex;
+    background: #34495e;
+    flex-shrink: 0;
+  }
+  .tab-bar button {
+    flex: 1;
+    padding: 15px;
+    border: none;
+    background: #34495e;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  .tab-bar button:hover,
+  .tab-bar button.active {
+    background: #1abc9c;
+  }
+  .slider-wrapper {
+    /* flex: 1; */
+    overflow: hidden;
+    position: relative;
+  }
+  .slider {
+    display: flex;
+    transition: transform 0.4s ease;
+    height: 100%;
+  }
+  .slide {
+    width: 100%;
+    flex-shrink: 0;
+    overflow-y: auto;
+    padding: 0px;
+    padding-top: 10px;
+    height: 100%;
+  }
+  .blog-post {
+    background: white;
+    margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 6px;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.1);
+  }
+  h2 {
+    margin-top: 0;
+  }
+  button.read-more {
+    background: #1abc9c;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  button.read-more:hover {
+    background: #16a085;
+  }
+  ul {
+    padding-left: 20px;
+  }
+      * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+    }
+
+    .outer-container {
+      width: 100%;
+      max-width: 500px;
+      height: 600px;
+      margin: 2rem auto;
+      padding: 1rem;
+      border: 2px solid #ccc;
+      border-radius: 10px;
+      background: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+
+    .gallery-box {
+      width: 100%;
+      height: 100%;
+      max-height: 100%;
+      overflow-y: auto;
+      background-color: #333;
+      padding: 0.5rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .gallery-box img {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      display: block;
+    }
+    
+
+
+.quiz-container {
+  background: white;
+  padding: 20px 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+
+  width: 100%;
+}
+
+.question-block {
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #ddd;
+}
+
+.question-text {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.options {
+  list-style: none;
+  padding: 0;
+}
+
+.options li {
+  background: #eee;
+  padding: 10px;
+  margin-bottom: 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.options li:hover {
+  background: #dcdcdc;
+}
+
+.options li.correct {
+  background-color: #b4f8c8;
+}
+
+.options li.wrong {
+  background-color: #ffadad;
+}
+
+.explanation {
+  font-size: 15px;
+  color: #333;
+  margin-top: 8px;
+}
+
+img.question-img {
+  max-width: 100%;
+  margin-top: 10px;
+  border-radius: 8px;
+}
+
+</style>
+</head>
+<body>
+
+<div class="header">Blog Reader Platform</div>
+
+<div class="toggle-buttons">
+    <button class="toggle-btn" onclick="toggleSidebar()">☰ Categories</button>
+    <button class="toggle-btn" onclick="toggleAd()">📢 Ads</button>
+</div>
+
+<div class="main">
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+
+        <div class="topic-group">
+            
+            <button class="custom-btn" onclick="toggleDropdown(event, 'health')">
+                
+                    <div class="icon-container">
+        <img src="Frame 1 (1).png" alt="Icon">
+                    </div>  
+            <span class="btn-label">Figma</span>
+               
+
+      <span class="dropdown-icon"></span>
+            </button>
+            <div class="subtopics" id="health1">
+                <div class="button-row">
+                    <button class="custom-btn"><img src="icon.png" alt="icon"></button>
+                    <button class="custom-btn"><img src="icon.png" alt="icon"></button>
+                    <button class="custom-btn"><img src="icon.png" alt="icon"></button>
+                    <button class="custom-btn"><img src="icon.png" alt="icon"></button> 
+                </div>
+            </div>
+        </div>
+
+        <div class="topic-group">
+            <button class="topic-button" onclick="toggleDropdown(event, 'tech1')">
+                Technology <span>▼</span>
+            </button>
+            <div class="subtopics" id="tech1">
+                <button>AI</button>
+                <button>Web Development</button>
+               
+            </div>
+        </div>
+
+        <div class="topic-group">
+            <button class="topic-button" onclick="toggleDropdown(event, 'travel1')">
+                Travel <span>▼</span>
+            </button>
+            <div class="subtopics" id="travel1">
+                <button>Destinations</button>
+                <button>Tips</button>
+                <button>Guides</button>
+            </div>
+        </div>
+                <div class="topic-group">
+            <button class="topic-button" onclick="toggleDropdown(event, 'travel1')">
+                Travel <span>▼</span>
+            </button>
+            <div class="subtopics" id="travel2">
+                <button>Destinations</button>
+                <button>Tips</button>
+                <button>Guides</button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Main Content -->
+    <div class="content-area">
+        <div class="container">
+        <div class="tab-bar">
+            <button class="tab-btn active" onclick="switchSlide(0)">Home</button>
+            <button class="tab-btn" onclick="switchSlide(1)">Categories</button>
+            <button class="tab-btn" onclick="switchSlide(2)">About</button>
+            <button class="tab-btn" onclick="switchSlide(3)">About</button>
+            <button class="tab-btn" onclick="switchSlide(4)">About</button>
+            
+        </div>
+
+        <div class="slider-wrapper" id="sliderWrapper">
+            <div class="slider" id="slider">
+
+
+            <!-- Home Slide -->
+            <div class="slide" style="background: #ecf0f1;">
+                <h2>📰 Latest Blog Posts</h2>
+                <div class="blog-post">
+                <h3>Designing with Nature</h3>
+                <p>Discover how sustainable design merges with modern architecture...</p>
+                <button class="read-more">Read More</button>
+                </div>
+                <div class="blog-post">
+                <h3>Designing with Nature</h3>
+                <p>Discover how sustainable design merges with modern architecture...</p>
+                <button class="read-more">Read More</button>
+                </div>
+                <div class="blog-post">
+                <h3>7 DIY Interior Hacks</h3>
+                <p>From wall art to lighting — simple tips to transform your space.</p>
+                <button class="read-more">Read More</button>
+                </div>
+                <div class="blog-post">
+                <h3>The Minimalist Life</h3>
+                <p>Explore how minimal design principles affect mood and clarity.</p>
+                <button class="read-more">Read More</button>
+                </div>
+            </div>
+
+            
+            
+            
+            <!-- Categories Slide -->
+            <div class="slide" style="background: #ecf0f1;">
+                <h2>📰 Latest Blog Posts</h2>
+                <div class="blog-post">
+  <div class="">
+    <h2 style="margin: 0 0 1rem 0; text-align: center;">Image Gallery</h2>
+    <div class="gallery-box">
+      <img src="janch parchi (counceling)_page-0001.jpg" alt="Image 1">
+      <img src="janch parchi (counceling)_page-0002.jpg" alt="Image 2">
+      <img src="janch parchi (counceling)_page-0003.jpg" alt="Image 3">
+      <img src="janch parchi (counceling)_page-0004.jpg" alt="Image 4">
+    </div>
+  </div>
+                </div>
+                <div class="blog-post">
+                <h3>Designing with Nature</h3>
+                <p>Discover how sustainable design merges with modern architecture...</p>
+                <button class="read-more">Read More</button>
+                </div>
+                <div class="blog-post">
+                <h3>7 DIY Interior Hacks</h3>
+                <p>From wall art to lighting — simple tips to transform your space.</p>
+                <button class="read-more">Read More</button>
+                </div>
+                <div class="blog-post">
+                <h3>The Minimalist Life</h3>
+                <p>Explore how minimal design principles affect mood and clarity.</p>
+                <button class="read-more">Read More</button>
+                </div>
+            </div>
+
+
+        <!-- -------------------------------------------------------------------------------------- -->
+            <div class="slide" style="background: #ecf0f1;">
+                <h2>📰 Latest Blog Posts</h2>
+                <div class="blog-post">
+                 <div class="quiz-container">
+    <h1>World History Quiz</h1>
+    <div id="quiz-box"></div>
+    <div id="result" class="hidden"></div>
+                     </div>
+                </div>
+                <div class="blog-post">
+                <h3>Designing with Nature</h3>
+                <p>Discover how sustainable design merges with modern architecture...</p>
+                <button class="read-more">Read More</button>
+                </div>
+                <div class="blog-post">
+                <h3>7 DIY Interior Hacks</h3>
+                <p>From wall art to lighting — simple tips to transform your space.</p>
+                <button class="read-more">Read More</button>
+                </div>
+                <div class="blog-post">
+                <h3>The Minimalist Life</h3>
+                <p>Explore how minimal design principles affect mood and clarity.</p>
+                <button class="read-more">Read More</button>
+                </div>
+            </div>
+
+        <!-- --------------------------------------------------------------------------------- -->
+
+            <div class="slide" style="background: #ecf0f1;">
+                <h2>📰 Latest Blog Posts</h2>
+                <div class="blog-post">
+                <h3>Designing with Nature</h3>
+                <p>Discover how sustainable design merges with modern architecture...</p>
+                <button class="read-more">Read More</button>
+                </div>
+                <div class="blog-post">
+                <h3>Designing with Nature</h3>
+                <p>Discover how sustainable design merges with modern architecture...</p>
+                <button class="read-more">Read More</button>
+                </div>
+                <div class="blog-post">
+                <h3>7 DIY Interior Hacks</h3>
+                <p>From wall art to lighting — simple tips to transform your space.</p>
+                <button class="read-more">Read More</button>
+                </div>
+                <div class="blog-post">
+                <h3>The Minimalist Life</h3>
+                <p>Explore how minimal design principles affect mood and clarity.</p>
+                <button class="read-more">Read More</button>
+                </div>
+            </div>
+
+
+
+
+            <!------------------- ------------------------------------------------- -->
+            <div class="slide" style="background: #ffeaa7;">
+                <h2>👤 About Me</h2>
+                <p>Hi, I'm Swetamber Bhagat — an architecture enthusiast and blogger. I share my thoughts on design, creativity, and space transformation.</p>
+                <p>Feel free to follow my blog and reach out if you’d like to collaborate!</p>
+            </div>
+            </div>
+        </div>
+        </div>
+                <!-- <div class="blog-card">
+                    <h3>Understanding AI in 2025</h3>
+                    <p>Explore how Artificial Intelligence is reshaping industries and daily life.</p>
+                </div>
+                <div class="blog-card">
+                    <h3>Healthy Living Tips</h3>
+                    <p>Simple strategies for maintaining mental and physical well-being.</p>
+                </div>
+                <div class="blog-card">
+                    <h3>Top Travel Destinations</h3>
+                    <p>Discover breathtaking locations to visit this year.</p>
+                </div>
+                <div class="blog-card">
+                    <h3>Managing Personal Finances</h3>
+                    <p>Effective ways to budget, save, and invest for a secure future.</p>
+                </div> -->
+                
+            </div>
+
+            <!-- Ads -->
+            <div class="ad-section" id="ad">
+                <p>AD SPACE</p>
+    </div>
+
+</div>
+
+<script>
+    function toggleSidebar() {
+        document.getElementById('sidebar').classList.toggle('open');
+    }
+    function toggleAd() {
+        document.getElementById('ad').classList.toggle('open');
+    }
+    function toggleDropdown(event, id) {
+        event.stopPropagation();
+        const dropdown = document.getElementById(id);
+        dropdown.classList.toggle('open');
+    }
+    const slider = document.getElementById('slider');
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+    let currentIndex = 0;
+
+    slider.style.width = `${totalSlides * 100}%`;
+    slides.forEach(slide => slide.style.width = `${100 / totalSlides}%`);
+
+    function switchSlide(index) {
+        currentIndex = index;
+        slider.style.transform = `translateX(-${index * (100 / totalSlides)}%)`;
+        document.querySelectorAll('.tab-btn').forEach((btn, i) => {
+        btn.classList.toggle('active', i === index);
+        }); 
+    }
+
+ let questions = [];
+
+const quizBox = document.getElementById("quiz-box");
+
+// Get URL parameter
+function getQueryParam(param) {
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get(param);
+}
+
+// Example fallback IDs if no URL param is given
+const defaultQuestionIds = [1, 3, 5, 1,5];
+
+fetch("questions.json")
+  .then(res => res.json())
+  .then(data => {
+    questions = data;
+
+    const idParam = getQueryParam("id");
+    const selectedIds = idParam
+      ? idParam.split(",").map(id => parseInt(id.trim())).filter(id => !isNaN(id))
+      : defaultQuestionIds; // Use default if none in URL
+
+    renderQuestionsInOrder(selectedIds);
+  });
+
+// Render questions based on selected order
+function renderQuestionsInOrder(idList) {
+  if (idList.length === 0) {
+    quizBox.innerHTML = "<p>No question IDs selected.</p>";
+    return;
+  }
+
+  const questionMap = new Map(questions.map(q => [q.id, q]));
+
+  idList.forEach((id, index) => {
+    const q = questionMap.get(id);
+    if (!q) return;
+
+    const block = document.createElement("div");
+    block.className = "question-block";
+
+    const questionText = document.createElement("div");
+    questionText.className = "question-text";
+    questionText.innerHTML = `<strong>Q${index + 1}.</strong> ${q.question}`;
+    block.appendChild(questionText);
+
+    if (q.image) {
+      const img = document.createElement("img");
+      img.src = q.image;
+      img.alt = "Question Image";
+      img.className = "question-img";
+      block.appendChild(img);
+    }
+
+    const optionsList = document.createElement("ul");
+    optionsList.className = "options";
+
+    q.options.forEach((opt, optIndex) => {
+      const li = document.createElement("li");
+      li.textContent = opt;
+      li.addEventListener("click", () => {
+        handleAnswer(li, optIndex, q.answer, q.explanation, optionsList);
+      });
+      optionsList.appendChild(li);
+    });
+
+    block.appendChild(optionsList);
+    quizBox.appendChild(block);
+  });
+}
+
+// Handle selected answer
+function handleAnswer(selectedLi, selectedIndex, correctIndex, explanation, optionsList) {
+  const options = optionsList.querySelectorAll("li");
+  options.forEach((li, idx) => {
+    li.classList.remove("correct", "wrong");
+    if (idx === correctIndex) li.classList.add("correct");
+    if (idx === selectedIndex && selectedIndex !== correctIndex) li.classList.add("wrong");
+    li.style.pointerEvents = "none";
+  });
+
+  const expl = document.createElement("div");
+  expl.className = "explanation";
+  expl.innerHTML = `<strong>Explanation:</strong> ${explanation}`;
+  optionsList.parentElement.appendChild(expl);
+}
+
+
+    // Swipe Support
+    let startX = 0;
+    const sliderWrapper = document.getElementById('sliderWrapper');
+
+    sliderWrapper.addEventListener('touchstart', e => {
+        startX = e.touches[0].clientX;
+    });
+
+    sliderWrapper.addEventListener('touchend', e => {
+        const endX = e.changedTouches[0].clientX;
+        if (endX - startX > 50 && currentIndex > 0) {
+        switchSlide(currentIndex - 1);
+        } else if (startX - endX > 50 && currentIndex < totalSlides - 1) {
+        switchSlide(currentIndex + 1);
+        }
+    });
+
+    
+    
+</script>
+
+</body>
+</html>
